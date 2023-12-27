@@ -1,13 +1,5 @@
 { lib, pkgs }:
 let
-  pyyaml = pkgs.python3Packages.buildPythonPackage rec {
-    pname = "PyYAML";
-    version = "6.0.1";
-    src = pkgs.python2Packages.fetchPypi {
-      inherit pname version;
-      sha256 = "sha256-v99GCxc2x3Xyup9qkryjC8IJUGe4qdd4dtH61sw7SkM=";
-    };
-  };
   plastex = pkgs.python3Packages.buildPythonPackage rec {
     pname = "plasTeX";
     version = "3.0";
@@ -28,7 +20,7 @@ in pkgs.python3Packages.buildPythonPackage {
   };
   doCheck = false;
   propagatedBuildInputs = let p = pkgs;
-  in [ p.gmpxx p.boost pyyaml plastex ];
+  in [ p.gmpxx p.boost p.python3Packages.pyyaml plastex ];
   nativeBuildInputs = let p = pkgs;
   in [ p.automake p.autoconf (p.writeShellScriptBin "git" "echo $@") ];
   postFixup = ''
