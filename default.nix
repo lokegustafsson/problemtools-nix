@@ -20,7 +20,7 @@ in pkgs.python3Packages.buildPythonPackage {
   };
   doCheck = false;
   propagatedBuildInputs = let p = pkgs;
-  in [ p.gmpxx p.boost p.python3Packages.pyyaml plastex ];
+  in [ p.gmpxx p.boost p.python3Packages.pyyaml plastex p.pdf2svg ];
   nativeBuildInputs = let p = pkgs;
   in [ p.automake p.autoconf (p.writeShellScriptBin "git" "echo $@") ];
   postFixup = ''
