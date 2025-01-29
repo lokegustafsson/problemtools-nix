@@ -1,4 +1,4 @@
-{ lib, pkgs }:
+{ pkgs ? import <nixpkgs> { } }:
 let
   plastex = pkgs.python3Packages.buildPythonPackage rec {
     pname = "plasTeX";
@@ -9,6 +9,7 @@ let
       sha256 = "sha256-YO/LrUdQS+0Ch34JkN3HgsDM68c6jbnPuo/CULwAIlI=";
     };
   };
+  lib = pkgs.lib;
 in pkgs.python3Packages.buildPythonPackage {
   name = "problemtools";
   src = pkgs.fetchFromGitHub {
@@ -27,7 +28,7 @@ in pkgs.python3Packages.buildPythonPackage {
     substituteInPlace $out/lib/python3*/site-packages/problemtools/config/languages.yaml \
       --replace '/usr/bin/gcc ' '${lib.meta.getExe pkgs.gcc} ' \
       --replace '/usr/bin/g++ ' '${lib.meta.getExe' pkgs.gcc "g++"} ' \
-      --replace '/usr/bin/python3 ' '${lib.meta.getExe pkgs.pypy3} ' \
+      --replace '/usr/bin/python3 ' '${lib.meta.getExe' pkgs.pypy3 "pypy3"} ' \
       --replace '/usr/bin/rustc ' '${lib.meta.getExe pkgs.rustc} ' \
       --replace '-static ' "" \
   '';
