@@ -1,0 +1,2 @@
+check:
+	nix-build .
