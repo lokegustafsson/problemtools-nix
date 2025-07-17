@@ -1,16 +1,5 @@
 { pkgs ? import <nixpkgs> { } }:
-let
-  plastex = pkgs.python3Packages.buildPythonPackage rec {
-    pname = "plasTeX";
-    version = "3.0";
-    doCheck = false;
-    src = pkgs.python3Packages.fetchPypi {
-      inherit pname version;
-      sha256 = "sha256-YO/LrUdQS+0Ch34JkN3HgsDM68c6jbnPuo/CULwAIlI=";
-    };
-  };
-  lib = pkgs.lib;
-in pkgs.python3Packages.buildPythonPackage {
+pkgs.python3Packages.buildPythonPackage {
   name = "problemtools";
   src = pkgs.fetchFromGitHub {
     owner = "Kattis";
@@ -23,7 +12,13 @@ in pkgs.python3Packages.buildPythonPackage {
   build-system = [ pkgs.python3Packages.setuptools ];
   doCheck = false;
   propagatedBuildInputs = let p = pkgs;
-  in [ p.gmpxx p.boost p.python3Packages.pyyaml plastex p.pdf2svg ];
+  in [
+    p.boost
+    p.gmpxx
+    p.pdf2svg
+    p.python3Packages.plasTeX
+    p.python3Packages.pyyaml
+  ];
   nativeBuildInputs = let p = pkgs;
   in [ p.automake p.autoconf (p.writeShellScriptBin "git" "echo $@") ];
   postFixup = ''
