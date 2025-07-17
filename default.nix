@@ -19,6 +19,8 @@ in pkgs.python3Packages.buildPythonPackage {
     fetchSubmodules = true;
     sha256 = "sha256-SyOjXIyfFAg3V4RbbInSfh01gYeF+AIDWn5dtbn/nqw=";
   };
+  pyproject = true;
+  build-system = [ pkgs.python3Packages.setuptools ];
   doCheck = false;
   propagatedBuildInputs = let p = pkgs;
   in [ p.gmpxx p.boost p.python3Packages.pyyaml plastex p.pdf2svg ];
