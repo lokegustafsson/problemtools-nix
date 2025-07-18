@@ -21,11 +21,16 @@ pkgs.python3Packages.buildPythonPackage {
   ];
   nativeBuildInputs = let p = pkgs;
   in [ p.automake p.autoconf (p.writeShellScriptBin "git" "echo $@") ];
-  postFixup = ''
+  postFixup = let
+    pypy3 = pkgs.pypy3.override (y: {
+      sqlite = pkgs.sqlite.overrideAttrs
+        (x: { configureFlags = x.configureFlags ++ [ "--soname=legacy" ]; });
+    });
+  in ''
     substituteInPlace $out/lib/python3*/site-packages/problemtools/config/languages.yaml \
       --replace '/usr/bin/gcc ' '${pkgs.lib.meta.getExe pkgs.gcc} ' \
       --replace '/usr/bin/g++ ' '${pkgs.lib.meta.getExe' pkgs.gcc "g++"} ' \
-      --replace '/usr/bin/python3 ' '${pkgs.lib.meta.getExe' pkgs.pypy3 "pypy3"} ' \
+      --replace '/usr/bin/python3 ' '${pkgs.lib.meta.getExe' pypy3 "pypy3"} ' \
       --replace '/usr/bin/rustc ' '${pkgs.lib.meta.getExe pkgs.rustc} ' \
       --replace '-static ' "" \
   '';
