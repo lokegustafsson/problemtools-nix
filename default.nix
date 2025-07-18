@@ -23,10 +23,10 @@ pkgs.python3Packages.buildPythonPackage {
   in [ p.automake p.autoconf (p.writeShellScriptBin "git" "echo $@") ];
   postFixup = ''
     substituteInPlace $out/lib/python3*/site-packages/problemtools/config/languages.yaml \
-      --replace '/usr/bin/gcc ' '${lib.meta.getExe pkgs.gcc} ' \
-      --replace '/usr/bin/g++ ' '${lib.meta.getExe' pkgs.gcc "g++"} ' \
-      --replace '/usr/bin/python3 ' '${lib.meta.getExe' pkgs.pypy3 "pypy3"} ' \
-      --replace '/usr/bin/rustc ' '${lib.meta.getExe pkgs.rustc} ' \
+      --replace '/usr/bin/gcc ' '${pkgs.lib.meta.getExe pkgs.gcc} ' \
+      --replace '/usr/bin/g++ ' '${pkgs.lib.meta.getExe' pkgs.gcc "g++"} ' \
+      --replace '/usr/bin/python3 ' '${pkgs.lib.meta.getExe' pkgs.pypy3 "pypy3"} ' \
+      --replace '/usr/bin/rustc ' '${pkgs.lib.meta.getExe pkgs.rustc} ' \
       --replace '-static ' "" \
   '';
   meta.mainProgram = "verifyproblem";
